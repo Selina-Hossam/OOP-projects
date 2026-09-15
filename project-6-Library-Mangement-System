@@ -1,0 +1,184 @@
+#include <bits/stdc++.h>
+using namespace std;
+class Book {
+private:
+	string title, author;
+	bool is_borrowed=false, is_available=true;
+public:
+	static void displayMenu();
+	string getTitle() {
+		return title;
+	}
+	string getAuthor() {
+		return author;
+	}
+	bool Availability() {
+		return is_available;
+	}
+	void setTitle(string title) {
+		this->title=title;
+	}
+	void setAuthor(string author) {
+		this->author=author;
+	}
+	void Borrowing(bool b) {
+		is_borrowed=b;
+		is_available=!b;
+	}
+};
+void Book::displayMenu() {
+	cout<<"1. Add Book\n";
+	cout<<"2. Remove Book\n";
+	cout<<"3. Borrow Book\n";
+	cout<<"4. Return Book\n";
+	cout<<"5. Search Book\n";
+	cout<<"6. Display All Books\n";
+	cout<<"7. Exit\n";
+}
+void RunSystem() {
+	cout<<" === Library Management System ===\n";
+	vector<Book>books;
+	string b_title, b_author;
+	Book::displayMenu();
+	while(true) {
+		cout<<"Choose an option: ";
+		int ch;
+		cin>>ch;
+		while(ch>7||ch<1) {
+			cout<<"Invalid Choice! Please enter again...\n";
+			cout<<"Choose an option: ";
+			cin>>ch;
+		}
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+		switch(ch) {
+		case 1: {
+			Book b;
+			cout<<"Enter book title: ";
+			getline(cin, b_title);
+			b.setTitle(b_title);
+			cout<<"Enter book author: ";
+			getline(cin, b_author);
+			b.setAuthor(b_author);
+			books.push_back(b);
+			cout<<"Book \""<<b_title<<"\" added\n";
+			break;
+		}
+		case 2: {
+			cout<<"Enter book title to remove: ";
+			getline(cin, b_title);
+			for(int i=0; i<books.size(); i++) {
+				if(books[i].getTitle()==b_title) {
+					books.erase(books.begin()+i);
+					cout<<"Book \""<<b_title<<"\" removed!\n";
+					break;
+				}
+				if(i==books.size()-1) cout<<"Book Not Found\n";
+			}
+			break;
+		}
+		case 3: {
+			cout<<"Enter book title to borrow: ";
+			getline(cin, b_title);
+			for(int i=0; i<books.size(); i++) {
+				if(books[i].getTitle()==b_title) {
+					books[i].Borrowing(true);
+					cout<<"\""<<b_title<<"\" borrowed successfully.\n";
+					break;
+				}
+				if(i==books.size()-1) cout<<"Book Not Found\n";
+			}
+			break;
+		}
+		case 4: {
+			cout<<"Enter book title to return: ";
+			getline(cin, b_title);
+			for(int i=0; i<books.size(); i++) {
+				if(books[i].getTitle()==b_title) {
+					books[i].Borrowing(false);
+					cout<<"\""<<b_title<<"\" returned successfully.\n";
+					break;
+				}
+				if(i==books.size()-1) cout<<"Book Not Found\n";
+			}
+			break;
+		}
+		case 5: {
+			int c, t=0;
+			do {
+				if(t>0) cout<<"Invalid input! Please try again...\n";
+				cout<<"Which method do you want to search by? \n";
+				cout<<"1.Enter book title to search about.\n";
+				cout<<"2.Enter book author to search about.\n";
+				cin>>c;
+				t++;
+			} while(c>2||c<1);
+			cin.ignore();
+			if(c==1) {
+				cout<<"Enter title: ";
+				getline(cin, b_title);
+				for(int i=0; i<books.size(); i++) {
+					if(books[i].getTitle()==b_title) {
+						cout<<"Book Title: "<<books[i].getTitle()<<endl;
+						cout<<"Book Author: "<<books[i].getAuthor()<<endl;
+						if(books[i].Availability()) {
+							cout<<"Availability: available\n";
+						} else {
+							cout<<"Availability: unavailable\n";
+						}
+						break;
+
+					}
+					if(i==books.size()-1) cout<<"Book Not Found\n";
+				}
+
+			}
+			else {
+				int temp=0;
+				cout<<"Enter author: ";
+				getline(cin, b_author);
+				for(int i=0; i<books.size(); i++) {
+					if(books[i].getAuthor()==b_author) {
+						cout<<"Book Title: "<<books[i].getTitle()<<endl;
+						cout<<"Book Author: "<<books[i].getAuthor()<<endl;
+						if(books[i].Availability()) {
+							cout<<"Availability: available\n";
+						} else {
+							cout<<"Availability: unavailable\n";
+						}
+						temp++;
+
+					}
+					if(i==books.size()-1&&temp==0) cout<<"Book Not Found\n";
+				}
+			}
+			break;
+		}
+		case 6: {
+			for(int i=0; i<books.size(); i++) {
+				cout<<"Book Title: "<<books[i].getTitle()<<endl;
+				cout<<"Book Author: "<<books[i].getAuthor()<<endl;
+				if(books[i].Availability()) {
+					cout<<"Availability: available\n";
+				} else {
+					cout<<"Availability: unavailable\n";
+				}
+				cout<<"=========================\n";
+			}
+			break;
+		}
+		case 7:
+			cout<<"Goodbye!\n";
+			return;
+		}
+		cout<<"\n";
+	}
+}
+
+
+
+int main() {
+	RunSystem();
+
+	return 0;
+}
