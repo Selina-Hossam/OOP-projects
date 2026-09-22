@@ -29,18 +29,15 @@ public:
 		}
 	}
 	void displayGrid(char array[3][3]) {
-		int temp=0;
 		for(int i=0; i<3; i++) {
 			for(int j=0; j<3; j++) {
 			    cout<<" ";
-				temp++;
 				cout<<array[i][j];
 				if(j==0||j==1) {
 					cout<<" |";
 				}
-				if(temp==3) {
+				if(j==2) {
 				    cout<<"\n";
-					temp=0;
 					if(i<2) cout<<"---+---+---\n";
 				}
 			}
